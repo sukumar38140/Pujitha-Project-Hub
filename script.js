@@ -279,7 +279,7 @@ function initForm() {
     // Payment Integration (UPI)
     if (!paymentInitiated) {
       const upiId = "9154468879@ybl";
-      const payeeName = encodeURIComponent("Kumar");
+      const payeeName = encodeURIComponent("Pujitha G");
       const amount = "499.00";
       const note = encodeURIComponent("Project Advance - " + name);
       
@@ -305,7 +305,7 @@ function initForm() {
     }
 
     // Build message for WhatsApp
-    const message = `Hi Kumar,
+    const message = `Hi Pujitha G,
 This is ${name}
 
 College: ${college}
