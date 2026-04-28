@@ -39,7 +39,7 @@ const EXTRAS = {
   assistance: { price: 99, label: 'Project Assistance' }
 };
 const COMBO_PRICE = 599;
-const PROMO_CODE = 'KUMAR500';
+const PROMO_CODE = 'PUJITHA500';
 const PROMO_DISCOUNT = 500;
 const REFERRAL_DISCOUNT = 1000;
 let promoApplied = false;
@@ -129,7 +129,7 @@ function initPromo() {
 
     if (code === PROMO_CODE) {
       promoApplied = true;
-      showPromoMessage('✅ Promo code KUMAR500 applied! You saved ₹500 extra!', 'success');
+      showPromoMessage('✅ Promo code PUJITHA500 applied! You saved ₹500 extra!', 'success');
       promoInput.disabled = true;
       promoInput.classList.add('promo-applied');
       applyBtn.textContent = 'Applied ✓';
@@ -138,7 +138,7 @@ function initPromo() {
       updateTotal();
       showToast('🎉 ₹500 discount applied!', 'success');
     } else {
-      showPromoMessage('❌ Invalid promo code. Try KUMAR500.', 'error');
+      showPromoMessage('❌ Invalid promo code. Try PUJITHA500.', 'error');
       promoInput.classList.add('promo-error');
       setTimeout(() => promoInput.classList.remove('promo-error'), 1500);
     }
@@ -214,7 +214,9 @@ function initForm() {
       college: { el: document.getElementById('college'), label: 'College Name' },
       rollNo: { el: document.getElementById('rollNo'), label: 'Roll Number' },
       projectTitle: { el: document.getElementById('projectTitle'), label: 'Project Title' },
-      whatsapp: { el: document.getElementById('whatsapp'), label: 'WhatsApp Number' }
+      whatsapp: { el: document.getElementById('whatsapp'), label: 'WhatsApp Number' },
+      projectType: { el: document.getElementById('projectType'), label: 'Project Type' },
+      domain: { el: document.getElementById('domain'), label: 'Domain' }
     };
 
     // Clear previous errors
@@ -251,6 +253,8 @@ function initForm() {
     const title = fields.projectTitle.el.value.trim();
     const desc = document.getElementById('projectDesc').value.trim() || 'Not provided';
     const phone = fields.whatsapp.el.value.trim();
+    const projectType = fields.projectType.el.value.trim();
+    const domain = fields.domain.el.value.trim();
 
     // Selected extras
     let selectedExtras = [];
@@ -266,7 +270,7 @@ function initForm() {
     const extrasStr = selectedExtras.length > 0 ? selectedExtras.join(', ') : 'None';
 
     // Promo & Referral info
-    const promoInfo = promoApplied ? '✅ KUMAR500 (₹500 discount)' : 'None';
+    const promoInfo = promoApplied ? '✅ PUJITHA500 (₹500 discount)' : 'None';
     const referralInfo = referralApplied ? '✅ Yes (₹1000 discount)' : 'No';
 
     // Total
@@ -274,7 +278,7 @@ function initForm() {
 
     // Payment Integration (UPI)
     if (!paymentInitiated) {
-      const upiId = "8978943122@upi";
+      const upiId = "9154468879@ybl";
       const payeeName = encodeURIComponent("Kumar");
       const amount = "499.00";
       const note = encodeURIComponent("Project Advance - " + name);
@@ -285,7 +289,6 @@ function initForm() {
       window.location.href = upiUrl;
       
       paymentInitiated = true;
-      document.getElementById('utrContainer').style.display = 'block';
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.innerHTML = `
         <span class="wa-icon">
@@ -293,30 +296,15 @@ function initForm() {
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
           </svg>
         </span>
-        Verify Payment &amp; Chat
+        Send Details via WhatsApp
       `;
       submitBtn.style.background = 'linear-gradient(135deg, #2563eb, #1d4ed8)';
       
-      showToast('📱 Opening UPI App... Complete payment and enter the UTR below to verify!', 'success');
+      showToast('📱 Opening UPI App... Complete payment and click again to send details!', 'success');
       return; // Stop here and wait for second click
     }
 
-    // Validate UTR on second click
-    const utrInput = document.getElementById('utrInput');
-    const utrValue = utrInput.value.trim();
-    
-    if (utrValue.length < 8) {
-      showToast('⚠️ Please enter a valid UPI UTR or Reference Number to verify your payment.', 'error');
-      utrInput.style.borderColor = '#ef4444';
-      utrInput.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.15)';
-      setTimeout(() => {
-        utrInput.style.borderColor = 'var(--border)';
-        utrInput.style.boxShadow = 'none';
-      }, 2000);
-      return;
-    }
-
-    // Build message for WhatsApp (Execute on 2nd Click if UTR is valid)
+    // Build message for WhatsApp
     const message = `Hi Kumar,
 This is ${name}
 
@@ -325,6 +313,8 @@ Roll No: ${rollNo}
 
 Project Title: ${title}
 Description: ${desc}
+Project Type: ${projectType}
+Domain: ${domain}
 
 Selected Extras: ${extrasStr}
 Promo Code: ${promoInfo}
@@ -332,13 +322,12 @@ Referral: ${referralInfo}
 
 Total Price: ${totalText}
 Advance: ₹499 (Paid via UPI)
-UTR No: ${utrValue}
 
 My Contact Number: ${phone}`;
 
     // Encode & redirect
     const encoded = encodeURIComponent(message);
-    const url = `https://wa.me/919494565162?text=${encoded}`;
+    const url = `https://wa.me/919154468879?text=${encoded}`;
 
     showToast('✅ Redirecting to WhatsApp...', 'success');
     setTimeout(() => window.open(url, '_blank'), 800);
